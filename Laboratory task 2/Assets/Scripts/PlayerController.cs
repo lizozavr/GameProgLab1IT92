@@ -7,22 +7,22 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     Vector3 startGamePosition;
     Quaternion startGameRotation;
-    float laneOffset = 2.5f;
+    float laneOffset;
     float laneChangeSpeed = 15;
     Rigidbody rb;
-    Vector3 targetVelocity;
     float pointStart;
     float pointFinish;
     bool isMoving = false;
     Coroutine movingCoroutine;
     float lastVectorX;
     bool isJumping = false;
-    float jumpPower = 15;
-    float jumpGravity = -49;
-    float realGravity = -9.8f;
+    public float jumpPower = 15;
+    public float jumpGravity = -49;
+    public float realGravity = -9.8f;
 
     void Start()
     {
+        laneOffset = MapGenerator.instance.laneOffset;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         startGamePosition = transform.position;

@@ -974,6 +974,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 804498322}
   m_CullTransparentMesh: 1
+--- !u!1 &804692019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 804692021}
+  - component: {fileID: 804692020}
+  m_Layer: 0
+  m_Name: MapGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &804692020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804692019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d53ea17c884164a41bc940f67b2470e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laneOffset: 2.5
+  ObstacleTopPrefab: {fileID: 5222746315589077709, guid: ffafc245ee484ea4189152bbe5dbcc3c, type: 3}
+  ObstacleBottomPrefab: {fileID: 6926788716358433718, guid: 855084cf3ed1f1a478ef4976c52e2c1a, type: 3}
+  ObstacleFullPrefab: {fileID: 2202484875519727148, guid: d81b8653a0705684b97e621426ebd737, type: 3}
+  RampPrefab: {fileID: 6364804403215313381, guid: 21d94ef176d2a9242b9a7177813becaa, type: 3}
+  CoinPrefab: {fileID: 5828833646244273200, guid: caacdfb929fe15948945196c420594ef, type: 3}
+  maps: []
+  activeMaps: []
+--- !u!4 &804692021
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804692019}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.25, z: -0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &928769836 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -1246818026467025502, guid: 6a3457a1ef88ae345b61ff84297b94e9, type: 3}
@@ -1263,6 +1314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RoadPrefab: {fileID: 5023770241094710978, guid: 98b1c30f8db70b74983b783996fb3b48, type: 3}
   maxSpeed: 10
+  speed: 0
   maxRoadCount: 5
 --- !u!4 &975592555
 Transform:
@@ -2898,6 +2950,10 @@ PrefabInstance:
     - target: {fileID: 6338709647450791360, guid: 6a3457a1ef88ae345b61ff84297b94e9, type: 3}
       propertyPath: m_Name
       value: Toon Chicken@Idle
+      objectReference: {fileID: 0}
+    - target: {fileID: 6338709647450791360, guid: 6a3457a1ef88ae345b61ff84297b94e9, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a3457a1ef88ae345b61ff84297b94e9, type: 3}
