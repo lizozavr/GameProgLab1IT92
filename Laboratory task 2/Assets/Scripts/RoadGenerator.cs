@@ -43,7 +43,7 @@ public class RoadGenerator : Singleton<RoadGenerator>
         {
             pos = roads[roads.Count - 1].transform.position + new Vector3(0, 0, 10);
         }
-        GameObject go = Instantiate(RoadPrefab, pos, Quaternion.identity);
+        GameObject go = PoolManager.Instance.Spawn(RoadPrefab, pos, Quaternion.identity);
         go.transform.SetParent(transform);
         roads.Add(go);
     }
@@ -59,7 +59,7 @@ public class RoadGenerator : Singleton<RoadGenerator>
         speed = 0;
         while (roads.Count > 0)
         {
-            Destroy(roads[0]);
+            PoolManager.Instance.Despawn(roads[0]);
             roads.RemoveAt(0);
         }
 

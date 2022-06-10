@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.89411765, g: 0.9372549, b: 0.93333334, a: 0.7529412}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.46943754, g: 0.49849296, b: 0.5566038, a: 1}
@@ -643,7 +643,7 @@ RectTransform:
   m_GameObject: {fileID: 695332496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8571607, y: 0.8571607, z: 0.8571607}
   m_Children:
   - {fileID: 1217865646}
   m_Father: {fileID: 2099538883}
@@ -651,7 +651,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -207}
+  m_AnchoredPosition: {x: -1405.0703, y: -221.56}
   m_SizeDelta: {x: 495.701, y: 169.25702}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &695332498
@@ -869,7 +869,7 @@ RectTransform:
   m_GameObject: {fileID: 804498322}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8571607, y: 0.8571607, z: 0.8571607}
   m_Children:
   - {fileID: 1274949946}
   m_Father: {fileID: 2099538883}
@@ -877,7 +877,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -411}
+  m_AnchoredPosition: {x: -1405.0703, y: -396.44}
   m_SizeDelta: {x: 495.701, y: 169.25702}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &804498324
@@ -1235,8 +1235,8 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.89411765, g: 0.9372549, b: 0.93333334, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

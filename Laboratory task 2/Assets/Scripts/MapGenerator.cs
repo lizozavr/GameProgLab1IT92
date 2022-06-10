@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MapGenerator : Singleton<MapGenerator>
 {
-    int itemSpace = 8;
-    int itemCountInMap = 6;
+    int itemSpace = 6;
+    int itemCountInMap = 5;
     public float laneOffset = 2.5f;
     int coinsCountInItem = 10;
     float coinsHeight = 0.5f;
@@ -116,22 +116,22 @@ public class MapGenerator : Singleton<MapGenerator>
 
         for (int i = 0; i < itemCountInMap; i++)
         {
-            rndObstacle = Random.Range(0, 4);
+            rndObstacle = Random.Range(0, 3);
             rndPos = Random.Range(-1, 2);
 
+            //if (rndObstacle == 0)
+            //{
+            //    item.SetValues(null, rndPos, CoinsStyle.Line);
+            //}
             if (rndObstacle == 0)
-            {
-                item.SetValues(null, rndPos, CoinsStyle.Line);
-            }
-            if (rndObstacle == 1)
             {
                 item.SetValues(ObstacleFullPrefab, rndPos, CoinsStyle.Line);
             }
-            if (rndObstacle == 2)
+            if (rndObstacle == 1)
             {
                 item.SetValues(ObstacleBottomPrefab, rndPos, CoinsStyle.Jump);
             }
-            if (rndObstacle == 3)
+            if (rndObstacle == 2)
             {
                 item.SetValues(RampPrefab, rndPos, CoinsStyle.Ramp);
             }
