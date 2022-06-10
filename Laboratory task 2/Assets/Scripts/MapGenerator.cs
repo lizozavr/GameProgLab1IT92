@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
-    int itemSpace = 5;
-    int itemCountInMap = 4;
+    int itemSpace = 8;
+    int itemCountInMap = 6;
     public float laneOffset = 2.5f;
     int coinsCountInItem = 10;
     float coinsHeight = 0.5f;
     int mapSize;
-    enum TrackPos { Left = -1, Center = 0, Right = 1};
-    enum CoinsStyle { Line, Jump, Ramp};
+    enum TrackPos { Left = -1, Center = 0, Right = 1 };
+    enum CoinsStyle { Line, Jump, Ramp };
 
     public GameObject ObstacleTopPrefab;
     public GameObject ObstacleBottomPrefab;
@@ -24,16 +24,17 @@ public class MapGenerator : MonoBehaviour
 
     static public MapGenerator instance;
 
+
     struct MapItem
     {
-        public void SetValues(GameObject obstacle, TrackPos trackPos, CoinsStyle coinsStyle)
+        public void SetValues(GameObject obstacle, int trackPos, CoinsStyle coinsStyle)
         {
             this.obstacle = obstacle;
             this.trackPos = trackPos;
             this.coinsStyle = coinsStyle;
         }
         public GameObject obstacle;
-        public TrackPos trackPos;
+        public int trackPos;
         public CoinsStyle coinsStyle;
 
     }
@@ -42,8 +43,10 @@ public class MapGenerator : MonoBehaviour
     {
         instance = this;
         mapSize = itemCountInMap * itemSpace;
-        maps.Add(MakeMap1());
-        maps.Add(MakeMap1());
+        for(int i =0; i<=100; i++)
+        {
+            maps.Add(MakeMap1());
+        }
         foreach (GameObject map in maps)
         {
             map.SetActive(false);
@@ -57,19 +60,19 @@ public class MapGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (RoadGenerator.instance.speed == 0) 
+        if (RoadGenerator.instance.speed == 0)
             return;
 
-        foreach(GameObject map in activeMaps)
+        foreach (GameObject map in activeMaps)
         {
             map.transform.position -= new Vector3(0, 0, RoadGenerator.instance.speed * Time.deltaTime);
         }
 
-        if(activeMaps[0].transform.position.z < -mapSize)
+        if (activeMaps[0].transform.position.z < -mapSize)
         {
             RemoveFirstActiveMap();
             AddActiveMap();
-        }    
+        }
     }
 
     void RemoveFirstActiveMap()
@@ -94,7 +97,7 @@ public class MapGenerator : MonoBehaviour
         int r = Random.Range(0, maps.Count);
         GameObject go = maps[r];
         go.SetActive(true);
-        foreach(Transform child in go.transform)
+        foreach (Transform child in go.transform)
         {
             child.gameObject.SetActive(true);
         }
@@ -112,17 +115,38 @@ public class MapGenerator : MonoBehaviour
         GameObject result = new GameObject("Map1");
         result.transform.SetParent(transform);
         MapItem item = new MapItem();
-        for(int i=0; i<itemCountInMap; i++)
-        {
-            item.SetValues(null, TrackPos.Center, CoinsStyle.Line);
+        int rndObstacle;
+        int rndPos;
 
-            if (i == 2) { item.SetValues(RampPrefab, TrackPos.Left, CoinsStyle.Ramp); }
-            else if (i == 3) { item.SetValues(ObstacleBottomPrefab, TrackPos.Right, CoinsStyle.Jump); }
-            else if (i == 4) { item.SetValues(ObstacleBottomPrefab, TrackPos.Right, CoinsStyle.Jump); }
+        for (int i = 0; i < itemCountInMap; i++)
+        {
+            rndObstacle = Random.Range(0, 4);
+            rndPos = Random.Range(-1, 2);
+
+            if (rndObstacle == 0)
+            {
+                item.SetValues(null, rndPos, CoinsStyle.Line);
+            }
+            if (rndObstacle == 1)
+            {
+                item.SetValues(ObstacleFullPrefab, rndPos, CoinsStyle.Line);
+            }
+            if (rndObstacle == 2)
+            {
+                item.SetValues(ObstacleBottomPrefab, rndPos, CoinsStyle.Jump);
+            }
+            if (rndObstacle == 3)
+            {
+                item.SetValues(RampPrefab, rndPos, CoinsStyle.Ramp);
+            }
+            //if (i == 1) { item.SetValues(RampPrefab, TrackPos.Left, CoinsStyle.Ramp); }
+            //else if (i == 2) { item.SetValues(ObstacleFullPrefab, TrackPos.Center, CoinsStyle.Line); }
+            //else if (i == 3) { item.SetValues(ObstacleBottomPrefab, TrackPos.Right, CoinsStyle.Jump); }
+            //else if (i == 4) { item.SetValues(ObstacleFullPrefab, TrackPos.Center, CoinsStyle.Line); }
 
             Vector3 obstaclePos = new Vector3((int)item.trackPos * laneOffset, 0, i * itemSpace);
             CreateCoins(item.coinsStyle, obstaclePos, result);
-            if(item.obstacle != null)
+            if (item.obstacle != null)
             {
                 GameObject go = Instantiate(item.obstacle, obstaclePos, Quaternion.identity);
                 go.transform.SetParent(result.transform);
@@ -136,7 +160,7 @@ public class MapGenerator : MonoBehaviour
         Vector3 coinPos = Vector3.zero;
         if (style == CoinsStyle.Line)
         {
-            for(int i = -coinsCountInItem/2; i<coinsCountInItem/2;i++)
+            for (int i = -coinsCountInItem / 2; i < coinsCountInItem / 2; i++)
             {
                 coinPos.y = coinsHeight;
                 coinPos.z = i * ((float)itemSpace / coinsCountInItem);
@@ -148,7 +172,7 @@ public class MapGenerator : MonoBehaviour
         {
             for (int i = -coinsCountInItem / 2; i < coinsCountInItem / 2; i++)
             {
-                coinPos.y = Mathf.Max(-1/2f * Mathf.Pow(i,2)+3, coinsHeight);
+                coinPos.y = Mathf.Max(-1 / 2f * Mathf.Pow(i, 2) + 3, coinsHeight);
                 coinPos.z = i * ((float)itemSpace / coinsCountInItem);
                 GameObject go = Instantiate(CoinPrefab, coinPos + pos, Quaternion.identity);
                 go.transform.SetParent(parentObject.transform);
@@ -158,7 +182,7 @@ public class MapGenerator : MonoBehaviour
         {
             for (int i = -coinsCountInItem / 2; i < coinsCountInItem / 2; i++)
             {
-                coinPos.y = Mathf.Min(Mathf.Max(0.7f * (i+2), coinsHeight), 3.0f);
+                coinPos.y = Mathf.Min(Mathf.Max(0.7f * (i + 2), coinsHeight), 3.0f);
                 coinPos.z = i * ((float)itemSpace / coinsCountInItem);
                 GameObject go = Instantiate(CoinPrefab, coinPos + pos, Quaternion.identity);
                 go.transform.SetParent(parentObject.transform);
