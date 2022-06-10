@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SwipeManager : MonoBehaviour
+public class SwipeManager : Singleton<SwipeManager>
 {
-    public static SwipeManager instance;
     public enum Direction { Left, Right, Up, Down};
     bool[] swipe = new bool[4];
     Vector2 startTouch;
@@ -23,7 +22,6 @@ public class SwipeManager : MonoBehaviour
     bool TouchEnded() { return Input.GetMouseButtonUp(0); }
     bool GetTouch() { return Input.GetMouseButton(0); }
     // Start is called before the first frame update
-    void Awake() { instance = this; }
 
     // Update is called once per frame
     void Update()

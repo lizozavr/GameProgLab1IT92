@@ -2,14 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolManager : MonoBehaviour
+public class PoolManager : Singleton<PoolManager>
 {
-    public static PoolManager Instance;
-    private void Awake()
-    {
-        Instance = this;
-    }
-
     class Pool
     {
         private List<GameObject> inactive = new List<GameObject>();

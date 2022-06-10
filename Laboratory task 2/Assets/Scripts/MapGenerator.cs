@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapGenerator : MonoBehaviour
+public class MapGenerator : Singleton<MapGenerator>
 {
     int itemSpace = 8;
     int itemCountInMap = 6;
@@ -22,9 +22,6 @@ public class MapGenerator : MonoBehaviour
     public List<GameObject> maps = new List<GameObject>();
     public List<GameObject> activeMaps = new List<GameObject>();
 
-    static public MapGenerator instance;
-
-
     struct MapItem
     {
         public void SetValues(GameObject obstacle, int trackPos, CoinsStyle coinsStyle)
@@ -41,7 +38,6 @@ public class MapGenerator : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
         mapSize = itemCountInMap * itemSpace;
         for(int i =0; i<=100; i++)
         {
@@ -60,12 +56,12 @@ public class MapGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (RoadGenerator.instance.speed == 0)
+        if (RoadGenerator.Instance.speed == 0)
             return;
 
         foreach (GameObject map in activeMaps)
         {
-            map.transform.position -= new Vector3(0, 0, RoadGenerator.instance.speed * Time.deltaTime);
+            map.transform.position -= new Vector3(0, 0, RoadGenerator.Instance.speed * Time.deltaTime);
         }
 
         if (activeMaps[0].transform.position.z < -mapSize)

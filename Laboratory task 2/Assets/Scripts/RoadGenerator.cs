@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoadGenerator : MonoBehaviour
+public class RoadGenerator : Singleton<RoadGenerator>
 {
-    public static RoadGenerator instance;
     public GameObject RoadPrefab;
     private List<GameObject> roads = new List<GameObject>();
     public float maxSpeed = 10;
@@ -17,10 +16,6 @@ public class RoadGenerator : MonoBehaviour
         //StartLevel();
     }
 
-    private void Awake()
-    {
-        instance = this;
-    }
     // Update is called once per frame
     void Update()
     {
@@ -56,7 +51,7 @@ public class RoadGenerator : MonoBehaviour
     public void StartLevel()
     {
         speed = maxSpeed;
-        SwipeManager.instance.enabled = true;
+        SwipeManager.Instance.enabled = true;
     }
 
     public void ResetLevel()
@@ -72,7 +67,7 @@ public class RoadGenerator : MonoBehaviour
         {
             CreateNextRoad();
         }
-        SwipeManager.instance.enabled = false;
-        MapGenerator.instance.ResetMaps();
+        SwipeManager.Instance.enabled = false;
+        MapGenerator.Instance.ResetMaps();
     }
 }

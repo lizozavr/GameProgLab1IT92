@@ -22,12 +22,12 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        laneOffset = MapGenerator.instance.laneOffset;
+        laneOffset = MapGenerator.Instance.laneOffset;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         startGamePosition = transform.position;
         startGameRotation = transform.rotation;
-        SwipeManager.instance.MoveEvent += MovePlayer;
+        SwipeManager.Instance.MoveEvent += MovePlayer;
     }
 
     // Update is called once per frame
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
     public void StartLevel()
     {
         animator.applyRootMotion = false;
-        RoadGenerator.instance.StartLevel();
+        RoadGenerator.Instance.StartLevel();
     }
 
     public void ResetGame()
@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("Idle");
         transform.position = startGamePosition;
         transform.rotation = startGameRotation;
-        RoadGenerator.instance.ResetLevel();
+        RoadGenerator.Instance.ResetLevel();
     }
 
     private void OnTriggerEnter(Collider other)
