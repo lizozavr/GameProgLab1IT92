@@ -140,8 +140,9 @@ public class MapGenerator : Singleton<MapGenerator>
             //else if (i == 3) { item.SetValues(ObstacleBottomPrefab, TrackPos.Right, CoinsStyle.Jump); }
             //else if (i == 4) { item.SetValues(ObstacleFullPrefab, TrackPos.Center, CoinsStyle.Line); }
 
-            Vector3 obstaclePos = new Vector3((int)item.trackPos * laneOffset, 0, i * itemSpace);
+            Vector3 obstaclePos = new Vector3((int)item.trackPos * laneOffset, 0, i * itemSpace); 
             CreateCoins(item.coinsStyle, obstaclePos, result);
+
             if (item.obstacle != null)
             {
                 GameObject go = Instantiate(item.obstacle, obstaclePos, Quaternion.identity);

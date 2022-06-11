@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - NotLose
   - Lose
+  - Coin
   layers:
   - Default
   - TransparentFX

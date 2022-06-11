@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class PlayerController : MonoBehaviour
 {
+    public int score;
+    [SerializeField] Text scoreText;
     Animator animator;
     Vector3 startGamePosition;
     Quaternion startGameRotation;
@@ -33,6 +37,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        scoreText.text = score.ToString();
         if (Input.GetKeyDown(KeyCode.A) && pointFinish > -laneOffset)
         {
             MoveHorizontal(-laneChangeSpeed);
@@ -140,6 +145,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.tag == "Coin")
+        {
+            score++;
+        }
         if(other.gameObject.tag == "Ramp")
         {
             rb.constraints |= RigidbodyConstraints.FreezePositionZ;
