@@ -2,25 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapGenerator : Singleton<MapGenerator>
+public class MapGenerator : Singleton<MapGenerator> 
 {
-    int itemSpace = 6;
-    int itemCountInMap = 5;
-    public float laneOffset = 2.5f;
-    int coinsCountInItem = 10;
-    float coinsHeight = 0.5f;
     int mapSize;
+    int itemSpace = 7;
+    int itemCountInMap = 5;
+    int coinsCountInItem = 10;
+    public float laneOffset = 2.5f;
+    float coinsHeight = 0.5f;
+  
     enum TrackPos { Left = -1, Center = 0, Right = 1 };
     enum CoinsStyle { Line, Jump, Ramp };
 
     public GameObject ObstacleTopPrefab;
-    public GameObject ObstacleBottomPrefab;
-    public GameObject ObstacleFullPrefab;
+    public GameObject Rock1Prefab;
+    public GameObject Rock2Prefab;
+    public GameObject StumpPrefab;
+    public GameObject SprucePrefab;
+    public GameObject Tree1Prefab;
+    public GameObject Tree2Prefab;
     public GameObject RampPrefab;
     public GameObject CoinPrefab;
 
     public List<GameObject> maps = new List<GameObject>();
     public List<GameObject> activeMaps = new List<GameObject>();
+    public List<GameObject> obstacles = new List<GameObject>();
 
     struct MapItem
     {
@@ -39,7 +45,7 @@ public class MapGenerator : Singleton<MapGenerator>
     private void Awake()
     {
         mapSize = itemCountInMap * itemSpace;
-        for(int i =0; i<=100; i++)
+        for (int i = 0; i <= 100; i++)
         {
             maps.Add(MakeMap1());
         }
@@ -51,6 +57,7 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void Start()
     {
+        
     }
 
     // Update is called once per frame
@@ -105,9 +112,34 @@ public class MapGenerator : Singleton<MapGenerator>
         maps.RemoveAt(r);
         activeMaps.Add(go);
     }
+    
+    class Obstacle
+    {
+        public Obstacle(string name, GameObject prefab, CoinsStyle coinsStyle)
+        {
+            Name = name;
+            ObstaclePrefab = prefab;
+            CoinsStyle = coinsStyle;
+        }
+        public string Name { get; set; }
+        public GameObject ObstaclePrefab { get; set; }
+        public CoinsStyle CoinsStyle { get; set; }
+
+    }
 
     GameObject MakeMap1()
     {
+        List<Obstacle> obstacles = new List<Obstacle>()
+        {
+        new Obstacle("RampPrefab", RampPrefab, CoinsStyle.Ramp),
+        new Obstacle("Rock1Prefab", Rock1Prefab, CoinsStyle.Jump),
+        new Obstacle("Rock2Prefab", Rock2Prefab, CoinsStyle.Jump),
+        new Obstacle("Tree1Prefab", Tree1Prefab, CoinsStyle.Line),
+        new Obstacle("Tree2Prefab", Tree2Prefab, CoinsStyle.Line),
+        new Obstacle("SprucePrefab", SprucePrefab, CoinsStyle.Line),
+        new Obstacle("StumpPrefab", StumpPrefab, CoinsStyle.Jump)
+        };
+
         GameObject result = new GameObject("Map1");
         result.transform.SetParent(transform);
         MapItem item = new MapItem();
@@ -116,31 +148,12 @@ public class MapGenerator : Singleton<MapGenerator>
 
         for (int i = 0; i < itemCountInMap; i++)
         {
-            rndObstacle = Random.Range(0, 3);
+            rndObstacle = Random.Range(0, obstacles.Count);
             rndPos = Random.Range(-1, 2);
 
-            //if (rndObstacle == 0)
-            //{
-            //    item.SetValues(null, rndPos, CoinsStyle.Line);
-            //}
-            if (rndObstacle == 0)
-            {
-                item.SetValues(ObstacleFullPrefab, rndPos, CoinsStyle.Line);
-            }
-            if (rndObstacle == 1)
-            {
-                item.SetValues(ObstacleBottomPrefab, rndPos, CoinsStyle.Jump);
-            }
-            if (rndObstacle == 2)
-            {
-                item.SetValues(RampPrefab, rndPos, CoinsStyle.Ramp);
-            }
-            //if (i == 1) { item.SetValues(RampPrefab, TrackPos.Left, CoinsStyle.Ramp); }
-            //else if (i == 2) { item.SetValues(ObstacleFullPrefab, TrackPos.Center, CoinsStyle.Line); }
-            //else if (i == 3) { item.SetValues(ObstacleBottomPrefab, TrackPos.Right, CoinsStyle.Jump); }
-            //else if (i == 4) { item.SetValues(ObstacleFullPrefab, TrackPos.Center, CoinsStyle.Line); }
+            item.SetValues(obstacles[rndObstacle].ObstaclePrefab, rndPos, obstacles[rndObstacle].CoinsStyle);
 
-            Vector3 obstaclePos = new Vector3((int)item.trackPos * laneOffset, 0, i * itemSpace); 
+            Vector3 obstaclePos = new Vector3((int)item.trackPos * laneOffset, 0, i * itemSpace);
             CreateCoins(item.coinsStyle, obstaclePos, result);
 
             if (item.obstacle != null)
