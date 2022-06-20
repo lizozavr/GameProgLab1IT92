@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class PlayerController : MonoBehaviour
 {
+    BaseState currentState;
+    public StateMachine _stateMachine;
     public int score;
     [SerializeField] Text scoreText;
     Animator animator;
     Vector3 startGamePosition;
     Quaternion startGameRotation;
     float laneOffset;
-    float laneChangeSpeed = 15;
+    public float laneChangeSpeed = 15;
     Rigidbody rb;
     float pointStart;
     float pointFinish;
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public float jumpPower = 15;
     public float jumpGravity = -49;
     public float realGravity = -9.8f;
+    public List<BaseState> states;
 
     void Start()
     {
@@ -31,46 +33,46 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         startGamePosition = transform.position;
         startGameRotation = transform.rotation;
-        SwipeManager.Instance.MoveEvent += MovePlayer;
+        //SwipeManager.Instance.MoveEvent += MovePlayer;
+        _stateMachine = new StateMachine();
+        _stateMachine.Initialize(new JumpState(this));
     }
 
     // Update is called once per frame
     void Update()
     {
+
         scoreText.text = score.ToString();
         if (Input.GetKeyDown(KeyCode.A) && pointFinish > -laneOffset)
         {
-            MoveHorizontal(-laneChangeSpeed);
+            _stateMachine.ChangeState(new LeftRoadState(this));
         }
-
         if (Input.GetKeyDown(KeyCode.D) && pointFinish < laneOffset)
         {
-            MoveHorizontal(laneChangeSpeed);
+            _stateMachine.ChangeState(new RightRoadState(this));
         }
-        if(Input.GetKeyDown(KeyCode.W) && isJumping == false)
+        if (Input.GetKeyDown(KeyCode.W) && isJumping == false)
         {
-            Jump();
+            _stateMachine.ChangeState(new JumpState(this));
         }
+
+        //scoreText.text = score.ToString();
+        //if (Input.GetKeyDown(KeyCode.A) && pointFinish > -laneOffset)
+        //{
+        //    MoveHorizontal(-laneChangeSpeed);
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.D) && pointFinish < laneOffset)
+        //{
+        //    MoveHorizontal(laneChangeSpeed);
+        //}
+        //if(Input.GetKeyDown(KeyCode.W) && isJumping == false)
+        //{
+        //    Jump();
+        //}
     }
 
-    void MovePlayer(bool[] swipes)
-    {
-        if (swipes[(int)SwipeManager.Direction.Left] && pointFinish > -laneOffset)
-        {
-            MoveHorizontal(-laneChangeSpeed);
-        }
-
-        if (swipes[(int)SwipeManager.Direction.Right] && pointFinish < laneOffset)
-        {
-            MoveHorizontal(laneChangeSpeed);
-        }
-        if (swipes[(int)SwipeManager.Direction.Up] && isJumping == false)
-        {
-            Jump();
-        }
-    }
-
-    void Jump()
+    public void Jump()
     {
         isJumping = true;
         rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
@@ -90,7 +92,7 @@ public class PlayerController : MonoBehaviour
         Physics.gravity = new Vector3(0, realGravity, 0);
     }
 
-    void MoveHorizontal(float speed)
+    public void MoveHorizontal(float speed)
     {
         animator.applyRootMotion = false;
         pointStart = pointFinish;
